@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>кодекс</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #e6f7ff 0%, #f0f9ff 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            color: #1e3a5f;
+        }
+
+        /* Анимированные шарики */
+        .bubbles {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #87ceeb, #b3e0ff);
+            opacity: 0.3;
+            animation: float 15s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) translateX(0) rotate(0deg);
+            }
+            25% {
+                transform: translateY(-20px) translateX(10px) rotate(90deg);
+            }
+            50% {
+                transform: translateY(-40px) translateX(-10px) rotate(180deg);
+            }
+            75% {
+                transform: translateY(-20px) translateX(5px) rotate(270deg);
+            }
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem 2rem;
+            box-shadow: 0 4px 20px rgba(135, 206, 235, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            animation: slideDown 0.8s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .logo {
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: #1e90ff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .logo::before {
+            content: "";
+            font-size: 2.5rem;
+        }
+
+        /* Main content */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .intro {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeInUp 1s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            color: #1e3a5f;
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .subtitle {
+            color: #4a6fa5;
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        /* Codex rules */
+        .rules-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .rule-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 25px rgba(135, 206, 235, 0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid rgba(135, 206, 235, 0.3);
+            animation: cardAppear 0.6s ease;
+            animation-fill-mode: both;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .rule-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(135, 206, 235, 0.4);
+        }
+
+        @keyframes cardAppear {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .rule-number {
+            background: linear-gradient(135deg, #87ceeb, #1e90ff);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .rule-content {
+            flex: 1;
+        }
+
+        .rule-title {
+            color: #1e3a5f;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .rule-text {
+            color: #4a6fa5;
+            line-height: 1.6;
+            font-size: 1.05rem;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(255, 255, 255, 0.95);
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+            border-top: 1px solid rgba(135, 206, 235, 0.3);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            .rule-card {
+                padding: 1.2rem;
+            }
+            
+            .rule-title {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Анимированные шарики -->
+    <div class="bubbles" id="bubbles"></div>
+
+    <header>
+        <div class="logo"></div>
+    </header>
+
+    <div class="container">
+        <section class="intro">
+            <h1>Кодекс</h1>
+            <p class="subtitle">Свод правил для поддержания безопасности и эффективности работы с рабочими аккаунтами</p>
+        </section>
+
+        <section class="rules-container">
+            <div class="rule-card">
+                <div class="rule-number">1</div>
+                <div class="rule-content">
+                    <h3 class="rule-title">Не общаться на рабочем аккаунте</h3>
+                    <p class="rule-text">Используйте рабочий аккаунт исключительно для рабочих целей, избегая личных разговоров.</p>
+                </div>
+            </div>
+
+            <div class="rule-card">
+                <div class="rule-number">2</div>
+                <div class="rule-content">
+                    <h3 class="rule-title">Рабочий аккаунт только для работы</h3>
+                    <p class="rule-text">Аккаунт предназначен только для рабочих задач, никакого общения с друзьями и т.д.</p>
+                </div>
+            </div>
+
+            <div class="rule-card">
+                <div class="rule-number">3</div>
+                <div class="rule-content">
+                    <h3 class="rule-title">Уникальные идентификаторы</h3>
+                    <p class="rule-text">Не используйте одинаковые имена, юзернеймы и фото для разных аккаунтов.</p>
+                </div>
+            </div>
+
+            <div class="rule-card">
+                <div class="rule-number">4</div>
+                <div class="rule-content">
+                    <h3 class="rule-title">Рассылка сообщений</h3>
+                    <p class="rule-text">Рассылайте сообщения только по выданным рабочим чатам в соответствии с задачами.</p>
+                </div>
+            </div>
+
+            <div class="rule-card">
+                <div class="rule-number">5</div>
+                <div class="rule-content">
+                    <h3 class="rule-title">Ограничение доступа к чатам</h3>
+                    <p class="rule-text">Не заходите в каналы и чаты, которые не важны для работы.</p>
+                </div>
+            </div>
+
+            <div class="rule-card">
+                <div class="rule-number">6</div>
+                <div class="rule-content">
+                    <h3 class="rule-title">Разделение личного и рабочего</h3>
+                    <p class="rule-text">Не выполняйте личные дела на рабочем аккаунте.</p>
+                </div>
+            </div>
+
+            <div class="rule-card">
+                <div class="rule-number">7</div>
+                <div class="rule-content">
+                    <h3 class="rule-title">Конфиденциальность</h3>
+                    <p class="rule-text">Не показывайте аккаунт другим людям для сохранения конфиденциальности.</p>
+                </div>
+            </div>
+
+            <div class="rule-card">
+                <div class="rule-number">8</div>
+                <div class="rule-content">
+                    <h3 class="rule-title">Уникальные аватары</h3>
+                    <p class="rule-text">Не ставьте похожие аватары в других аккаунтах.</p>
+                </div>
+            </div>
+
+            <div class="rule-card">
+                <div class="rule-number">9</div>
+                <div class="rule-content">
+                    <h3 class="rule-title">Избегание совпадений</h3>
+                    <p class="rule-text">Следите, чтобы не было совпадений с рабочим аккаунтом в других сервисах.</p>
+                </div>
+            </div>
+
+            <div class="rule-card">
+                <div class="rule-number">10</div>
+                <div class="rule-content">
+                    <h3 class="rule-title">Использование VPN</h3>
+                    <p class="rule-text">Всегда включайте VPN при входе в Telegram для обеспечения безопасности.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>© 2025 Все было по кодексу</p>
+    </footer>
+
+    <script>
+        // Создание анимированных шариков
+        function createBubbles() {
+            const bubblesContainer = document.getElementById('bubbles');
+            const bubbleCount = 15;
+            
+            for (let i = 0; i < bubbleCount; i++) {
+                const bubble = document.createElement('div');
+                bubble.classList.add('bubble');
+                
+                const size = Math.random() * 100 + 50;
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                const delay = Math.random() * 20;
+                const duration = 15 + Math.random() * 10;
+                
+                bubble.style.width = `${size}px`;
+                bubble.style.height = `${size}px`;
+                bubble.style.left = `${posX}%`;
+                bubble.style.top = `${posY}%`;
+                bubble.style.animationDelay = `${delay}s`;
+                bubble.style.animationDuration = `${duration}s`;
+                
+                bubblesContainer.appendChild(bubble);
+            }
+        }
+
+        // Анимация карточек при скролле
+        function animateOnScroll() {
+            const cards = document.querySelectorAll('.rule-card');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animationPlayState = 'running';
+                    }
+                });
+            });
+            
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+                card.style.animationPlayState = 'paused';
+                observer.observe(card);
+            });
+        }
+
+        // Инициализация при загрузке страницы
+        window.addEventListener('load', () => {
+            createBubbles();
+            animateOnScroll();
+        });
+    </script>
+</body>
+</html>
